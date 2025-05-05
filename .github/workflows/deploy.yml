@@ -28,7 +28,7 @@ jobs:
       - name: Prepare publish_dir
         run: |
           mkdir publish
-          cp -r out/portfolio/* publish/
+          cp -r out/portfolio/* publish/ && rm publish/README.md
           cp -r out/_next publish/_next
 
       # 5) gh‑pages ブランチへデプロイ
