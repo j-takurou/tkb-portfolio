@@ -49,3 +49,5 @@ export async function getProjectBySlug(slug: string) {
     body: mdx, // MDXRemote で使用
   };
 }
+
+export type ProjectMeta = ProjectFM & { slug: string };
