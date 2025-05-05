@@ -37,7 +37,7 @@ header p {
 /* ===== グリッド & カード ===== */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(2, 1fr); /* ←★必ず 2 列 */
   gap: 1.5rem;
   padding: 0 1.5rem 4rem;
   max-width: 1200px;
