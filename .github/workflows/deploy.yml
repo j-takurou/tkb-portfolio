@@ -1,0 +1,40 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]      # メインブランチを変更しているなら合わせる
+
+permissions:
+  contents: write           # gh‑pages ブランチへ push する権限
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1) ソース取得
+      - uses: actions/checkout@v4
+
+      # 2) Node.js セットアップ
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # 3) 依存インストール & ビルド
+      - run: npm ci
+      - run: npm run build          # out/ が生成される
+
+      # 4) _next を portfolio/ の下に移動して “1 つの公開フォルダ” を作る
+      - name: Prepare publish_dir
+        run: |
+          mkdir publish
+          cp -r out/portfolio/* publish/
+          cp -r out/_next publish/_next
+
+      # 5) gh‑pages ブランチへデプロイ
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./publish
+          # 既定では gh‑pages ブランチ / ルートへ書き込む
